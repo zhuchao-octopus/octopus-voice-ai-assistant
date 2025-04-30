@@ -1,0 +1,2 @@
+add_library(audio_processor AudioRecorder.cpp)
+target_include_directories(audio_processor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

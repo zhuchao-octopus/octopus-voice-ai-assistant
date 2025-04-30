@@ -1,0 +1,2 @@
+add_library(language_model LanguageModel.cpp)
+target_include_directories(language_model PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
