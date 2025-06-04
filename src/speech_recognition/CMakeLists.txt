@@ -1,17 +1,21 @@
-# 编译 speech_recognition 模块
+# Create a CMake static library target named "speech_recognition"
+# It will compile WhisperRecognizer.cpp as part of the library.
 add_library(speech_recognition
     WhisperRecognizer.cpp
 )
 
+# Specify public include directories for this library.
+# This allows other targets to include headers from this module
+# using #include "WhisperRecognizer.h"
 target_include_directories(speech_recognition PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}  # 当前模块路径
+    ${CMAKE_CURRENT_SOURCE_DIR}         # Local header files like WhisperRecognizer.h
+    ${PROJECT_SOURCE_DIR}/include       # (Optional) Shared interface headers like SpeechRecognition.h
 )
 
-# 使用相对路径指定库文件所在的目录
-link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../build/src)  # 假设构建目录在上级目录的 build 文件夹中
-
-# 依赖 whisper 库和 ggml 库
-target_link_libraries(speech_recognition
-    ${CMAKE_CURRENT_SOURCE_DIR}/../build/src/libwhisper.so
-    ${CMAKE_CURRENT_SOURCE_DIR}/../build/src/libggml.so  # 如果 whisper 库依赖 libggml
-)
+# Link the whisper library (from whisper.cpp subdirectory) and external dependencies
+# "whisper" target is created by the CMakeLists.txt in src/external/whisper.cpp
+# "sndfile" is required for loading audio (e.g., .wav files)
+#target_link_libraries(speech_recognition
+#    whisper
+#    sndfile
+#)
